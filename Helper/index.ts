@@ -1,11 +1,13 @@
 import axios from "axios"
 import pool from "../model/db";
 
+
+// function for Unique Array Object
 export function getUniqueListBy(arr:any, key:string) {
     return [...new Map(arr.map((item: { [x: string]: any; }) => [item[key], item])).values()]
 }
 
-
+// Function for to get Query data
 export async function helperFunc(search_query: any) {
     let date = new Date().toISOString()
     let url = `https://www.googleapis.com/youtube/v3/search?key=${process.env.API_KEY}&type=video&part=snippet&q=${search_query}&published_after=2021-01-01T00:00:00Z&published_before=${date}&order=date`

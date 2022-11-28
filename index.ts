@@ -2,17 +2,19 @@ import express from "express";
 import env from 'dotenv'
 import { graphqlHTTP } from "express-graphql"
 import { graphql, GraphQLInt, GraphQLList, GraphQLObjectType, GraphQLSchema, GraphQLString } from "graphql";
-import pool from "./model/db";
-import axios from "axios";
-import { getUniqueListBy, helperFunc } from "./Helper";
+import { helperFunc } from "./Helper";
 
+// Environmental Variable
 env.config();
+
 const app = express()
 
-
+// Middleware
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
+
+// DataType Schema 
 const youtubeDataType = new GraphQLObjectType({
     name: 'youtubeDatatype',
     fields: () => ({
@@ -24,7 +26,7 @@ const youtubeDataType = new GraphQLObjectType({
 })
 
 
-
+// Root Query for GraphQL
 const rootQuery = new GraphQLObjectType({
     name: 'view',
     fields: {
@@ -40,6 +42,8 @@ const rootQuery = new GraphQLObjectType({
     }
 })
 
+
+// Mutation for GraphQL
 const mutation = new GraphQLObjectType({
     name: 'mutation',
     fields: {
@@ -55,6 +59,7 @@ const mutation = new GraphQLObjectType({
     }
 })
 
+// Schema for GraphQL
 const schema = new GraphQLSchema({ query: rootQuery, mutation: mutation })
 
 app.use('/graphql', graphqlHTTP({
@@ -62,6 +67,8 @@ app.use('/graphql', graphqlHTTP({
     graphiql: true
 }))
 
+
+// Server at 1200
 app.listen(1200, () => {
     console.log("SERVER AT 1200");
 
